@@ -13,6 +13,7 @@
 ├─ scraper.py                 # 一覧・詳細ページの収集、URL単位の更新
 ├─ extractor.py               # LLMによる事実抽出
 ├─ build_site.py              # docs/index.html の生成
+├─ content_pages.py           # 運営者情報・方針・独自記事の生成
 ├─ sources.yml                # 対象自治体とCSSセレクター
 ├─ requirements.txt
 ├─ .env.example
@@ -23,6 +24,10 @@
 ├─ docs/sitemap.xml           # Google Search Console送信用
 └─ .github/workflows/daily_scrape.yml
 ```
+
+生成サイトには、キーワード・地域・対象者検索に加えて、締切順などの並べ替え、最大3制度の比較、簡易的な対象候補の絞り込みを備えています。判定結果は受給資格を保証しないため、必ずリンク先の公式情報で確認します。
+
+運営者情報、プライバシーポリシー、お問い合わせ、編集方針、免責事項、制度の選び方も `build_site.py` の実行時に `docs/` 配下へ生成されます。
 
 ## 初回実行
 
