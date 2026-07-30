@@ -16,6 +16,8 @@
 ├─ .env.example
 ├─ data/grants.json
 ├─ docs/index.html            # build_site.pyで生成
+├─ docs/robots.txt            # 検索エンジン向けクロール設定
+├─ docs/sitemap.xml           # Google Search Console送信用
 └─ .github/workflows/daily_scrape.yml
 ```
 

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mori0031.github.io/municipal-grants/sitemap.xml
