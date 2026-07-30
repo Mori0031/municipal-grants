@@ -178,12 +178,34 @@ def collect_jgrants(session: PoliteSession, settings: dict[str, Any]) -> list[di
     return records
 
 
+def collect_personal_catalog(session: PoliteSession, catalog_path: Path) -> list[dict[str, Any]]:
+    """国の公式ページで確認した個人向け制度を読み込み、URLの有効性を毎日確認する。"""
+    if not catalog_path.exists():
+        return []
+    items = json.loads(catalog_path.read_text(encoding="utf-8"))
+    today = date.today().isoformat()
+    records: list[dict[str, Any]] = []
+    for item in items:
+        try:
+            session.get(item["source_url"])
+            item["updated_at"] = today
+            records.append(item)
+        except Exception as exc:
+            logging.error("個人向け制度の公式ページ確認失敗 %s: %s", item.get("source_url"), exc)
+    logging.info("個人向け公式制度を%d件確認", len(records))
+    return records
+
+
 def run(config_path: Path, output_path: Path, dry_run: bool = False) -> None:
     config = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
     session = PoliteSession(float(config.get("request_interval_seconds", MIN_INTERVAL_SECONDS)))
     records = load_existing(output_path)
 
     for grant in collect_jgrants(session, config.get("jgrants", {})):
+        records[grant["source_url"]] = grant
+
+    personal_path = Path(config.get("personal_catalog", "data/personal_grants.json"))
+    for grant in collect_personal_catalog(session, personal_path):
         records[grant["source_url"]] = grant
 
     for source in config.get("sources", []):

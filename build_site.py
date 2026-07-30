@@ -98,7 +98,7 @@ html{scroll-behavior:smooth}body{background:var(--paper);color:var(--ink);font-f
 const grants=JSON.parse(document.getElementById('grant-data').textContent);
 const q=document.getElementById('query'),pref=document.getElementById('prefecture'),target=document.getElementById('target');
 const esc=s=>String(s??'公式ページで確認').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function render(){const needle=q.value.trim().toLowerCase();const rows=grants.filter(g=>{const hay=[g.title,g.target,g.amount,g.deadline,g.prefecture,g.city].join(' ').toLowerCase();return(!needle||hay.includes(needle))&&(!pref.value||g.prefecture===pref.value)&&(!target.value||String(g.target||'').includes(target.value))});
+function render(){const needle=q.value.trim().toLowerCase();const rows=grants.filter(g=>{const hay=[g.title,g.target,g.amount,g.deadline,g.prefecture,g.city].join(' ').toLowerCase();const targetText=String(g.target||'');const targetMatch=!target.value||(target.value==='個人'?(targetText.includes('個人')&&!targetText.includes('個人事業主')):targetText.includes(target.value));return(!needle||hay.includes(needle))&&(!pref.value||g.prefecture===pref.value)&&targetMatch});
  document.getElementById('count').textContent=rows.length;document.getElementById('empty').classList.toggle('hidden',rows.length>0);
  document.getElementById('results').innerHTML=rows.map((g,i)=>`<article class="card flex min-h-[340px] flex-col bg-[#f8f6ef] p-6 lg:p-9">
  <div class="flex items-center justify-between"><p class="text-[10px] font-semibold tracking-[.18em] text-[#8b764d]">${esc(g.prefecture)} / ${esc(g.city)}</p><span class="serif text-sm text-[#8d897f]">${String(i+1).padStart(2,'0')}</span></div>

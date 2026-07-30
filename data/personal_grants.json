@@ -1,0 +1,92 @@
+[
+  {
+    "title": "児童手当",
+    "target": "個人（高校生年代までの児童を養育している方）",
+    "amount": "児童の年齢・人数により月額10,000円、15,000円または30,000円",
+    "deadline": "出生・転入等の翌日から15日以内を目安に居住自治体へ申請",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.cfa.go.jp/policies/kokoseido/jidouteate",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "児童扶養手当",
+    "target": "個人（ひとり親家庭等で児童を養育している方）",
+    "amount": "所得・児童数等により異なる",
+    "deadline": "居住自治体へ随時申請（支給要件を要確認）",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.cfa.go.jp/policies/hitori-oya/fuyou-teate",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "出産育児一時金",
+    "target": "個人（健康保険・国民健康保険の被保険者または被扶養者で出産した方）",
+    "amount": "原則50万円（出産条件により異なる場合あり）",
+    "deadline": "加入する医療保険者の案内を確認",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryouhoken/shussan/index.html",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "年金生活者支援給付金",
+    "target": "個人（所得が一定基準以下の老齢・障害・遺族基礎年金受給者）",
+    "amount": "年金種別・保険料納付済期間等により異なる",
+    "deadline": "請求書の案内または年金事務所で確認",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.mhlw.go.jp/nenkinkyuufukin/",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "住居確保給付金",
+    "target": "個人（離職・廃業・休業等により住居を失うおそれがある方）",
+    "amount": "自治体・世帯人数・家賃等により異なる",
+    "deadline": "居住地の自立相談支援機関へ相談",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://corona-support.mhlw.go.jp/jukyokakuhokyufukin/index.html",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "高等教育の修学支援新制度",
+    "target": "個人（要件を満たす大学・短大・高専・専門学校の学生・進学予定者）",
+    "amount": "授業料・入学金の減免および返還不要の給付型奨学金",
+    "deadline": "学校・日本学生支援機構の募集時期を確認",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.mext.go.jp/kyufu/",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "高等学校等就学支援金制度",
+    "target": "個人（所得等の要件を満たす高校生等の世帯）",
+    "amount": "授業料支援。世帯所得・学校種等により支給額が異なる",
+    "deadline": "在学する学校の案内を確認",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.mext.go.jp/a_menu/shotou/mushouka/1342674.htm",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "育児休業給付",
+    "target": "個人（雇用保険の被保険者で要件を満たす育児休業取得者）",
+    "amount": "休業開始時賃金等を基礎に算定（支給率は期間・要件により異なる）",
+    "deadline": "勤務先または管轄ハローワークの案内を確認",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000135090_00001.html",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "求職者支援制度（職業訓練受講給付金）",
+    "target": "個人（雇用保険を受給できない求職者等で収入・資産などの要件を満たす方）",
+    "amount": "職業訓練受講手当月額10万円など（支給要件あり）",
+    "deadline": "住所地を管轄するハローワークへ相談",
+    "prefecture": "全国",
+    "city": "",
+    "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/koyou/kyushokusha_shien/index.html",
+    "updated_at": "2026-07-30"
+  }
+]

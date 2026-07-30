@@ -4,6 +4,8 @@
 
 デジタル庁が運営するJグランツ公開APIから、47都道府県の募集中案件も毎日取得します。Jグランツの結果はAPIの構造化項目をそのまま使用するため、LLMによる要約は行いません。
 
+`data/personal_grants.json`には国の公式ページで確認した個人向け制度を収録し、毎朝公式URLの有効性を確認して統合します。金額や期限が個別条件で変わる制度は推測せず、公式窓口での確認を案内します。
+
 ## 構成
 
 ```text
@@ -15,6 +17,7 @@
 ├─ requirements.txt
 ├─ .env.example
 ├─ data/grants.json
+├─ data/personal_grants.json  # 個人向け制度の公式カタログ
 ├─ docs/index.html            # build_site.pyで生成
 ├─ docs/robots.txt            # 検索エンジン向けクロール設定
 ├─ docs/sitemap.xml           # Google Search Console送信用
