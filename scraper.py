@@ -4,7 +4,7 @@ import argparse
 import json
 import logging
 import time
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -19,6 +19,16 @@ from extractor import extract_grant
 USER_AGENT = "MunicipalGrantCollector/1.0 (+https://github.com/your-org/municipal-grants; public-interest research)"
 MIN_INTERVAL_SECONDS = 2.0
 GRANT_WORDS = ("補助金", "助成金", "給付金", "支援金", "奨励金", "交付金")
+PREFECTURES = [
+    "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
+    "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+    "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
+    "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
+    "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
+    "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
+    "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
+]
+JGRANTS_API = "https://api.jgrants-portal.go.jp/exp/v1/public/subsidies"
 
 
 class PoliteSession:
@@ -61,6 +71,16 @@ class PoliteSession:
         response.encoding = response.apparent_encoding or response.encoding
         return response
 
+    def get_api(self, url: str, *, params: dict[str, str]) -> requests.Response:
+        """公開API用。robots.txtの代わりにAPI利用規約に従い、同じ間隔制御を行う。"""
+        wait = self.interval - (time.monotonic() - self.last_request_at)
+        if wait > 0:
+            time.sleep(wait)
+        response = self.session.get(url, params=params, timeout=(10, 30))
+        self.last_request_at = time.monotonic()
+        response.raise_for_status()
+        return response
+
 
 def page_text(html: str, selector: str = "main") -> str:
     soup = BeautifulSoup(html, "html.parser")
@@ -93,10 +113,78 @@ def load_existing(path: Path) -> dict[str, dict[str, Any]]:
     return {item["source_url"]: item for item in records if item.get("source_url")}
 
 
+def _iso_date(value: str | None) -> str | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).date().isoformat()
+    except ValueError:
+        return value
+
+
+def _yen(value: Any) -> str | None:
+    try:
+        amount = int(value)
+    except (TypeError, ValueError):
+        return None
+    return f"上限{amount:,}円" if amount > 0 else None
+
+
+def collect_jgrants(session: PoliteSession, settings: dict[str, Any]) -> list[dict[str, Any]]:
+    """デジタル庁Jグランツ公開APIから、現在募集中の全国案件を収集する。"""
+    if not settings.get("enabled", True):
+        return []
+
+    keywords = settings.get("keywords", ["補助金", "助成金", "給付金", "支援金", "奨励金"])
+    queries: list[dict[str, str]] = []
+    # 主要語は都道府県別に検索し、少なくとも各地域の案件を拾う。
+    primary = str(keywords[0])
+    for prefecture in PREFECTURES:
+        queries.append({"keyword": primary, "target_area_search": prefecture})
+    # 表記が異なる制度は全国検索で補完する。
+    queries.extend({"keyword": str(keyword)} for keyword in keywords[1:])
+
+    by_id: dict[str, dict[str, Any]] = {}
+    common = {"sort": "created_date", "order": "DESC", "acceptance": "1"}
+    for query in queries:
+        try:
+            response = session.get_api(JGRANTS_API, params={**common, **query})
+            for item in response.json().get("result", []):
+                if item.get("id"):
+                    by_id[item["id"]] = item
+        except Exception as exc:
+            logging.error("JグランツAPI取得失敗 %s: %s", query, exc)
+
+    today = date.today().isoformat()
+    records: list[dict[str, Any]] = []
+    for item in by_id.values():
+        area = item.get("target_area_search") or "全国"
+        prefectures = [name for name in PREFECTURES if name in area]
+        prefecture = prefectures[0] if len(prefectures) == 1 else "全国"
+        employee = item.get("target_number_of_employees")
+        target = "事業者" + (f"（{employee}）" if employee and employee != "従業員数の制約なし" else "")
+        source_url = f"https://www.jgrants-portal.go.jp/subsidy/{item['id']}"
+        records.append({
+            "title": item.get("title") or item.get("institution_name") or "名称未設定",
+            "target": target,
+            "amount": _yen(item.get("subsidy_max_limit")),
+            "deadline": _iso_date(item.get("acceptance_end_datetime")),
+            "prefecture": prefecture,
+            "city": "",
+            "source_url": source_url,
+            "updated_at": today,
+        })
+    logging.info("Jグランツから募集中案件を%d件取得", len(records))
+    return records
+
+
 def run(config_path: Path, output_path: Path, dry_run: bool = False) -> None:
     config = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
     session = PoliteSession(float(config.get("request_interval_seconds", MIN_INTERVAL_SECONDS)))
     records = load_existing(output_path)
+
+    for grant in collect_jgrants(session, config.get("jgrants", {})):
+        records[grant["source_url"]] = grant
 
     for source in config.get("sources", []):
         try:

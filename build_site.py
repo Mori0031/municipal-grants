@@ -57,7 +57,7 @@ html{scroll-behavior:smooth}body{background:var(--paper);color:var(--ink);font-f
       <div class="grid gap-8 md:grid-cols-3">
         <label class="text-xs font-semibold tracking-wider">キーワード<input id="query" type="search" placeholder="制度名・対象・金額" class="field mt-2"></label>
         <label class="text-xs font-semibold tracking-wider">都道府県<select id="prefecture" class="field mt-2"><option value="">全国すべて</option>__PREFECTURE_OPTIONS__</select></label>
-        <label class="text-xs font-semibold tracking-wider">対象者<select id="target" class="field mt-2"><option value="">すべての対象者</option><option value="個人">個人</option><option value="法人">法人</option><option value="個人事業主">個人事業主</option></select></label>
+        <label class="text-xs font-semibold tracking-wider">対象者<select id="target" class="field mt-2"><option value="">すべての対象者</option><option value="事業者">事業者</option><option value="個人">個人</option><option value="法人">法人</option><option value="個人事業主">個人事業主</option></select></label>
       </div>
     </div>
   </section>

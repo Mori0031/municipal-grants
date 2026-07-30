@@ -1,4 +1,12 @@
 request_interval_seconds: 2.0
+jgrants:
+  enabled: true
+  keywords:
+    - 補助金
+    - 助成金
+    - 給付金
+    - 支援金
+    - 奨励金
 sources:
   # 自治体ごとに一覧URLとCSSセレクターを設定してください。
   # 以下は書式例です。実在ページに合わせてURLとセレクターを変更します。
