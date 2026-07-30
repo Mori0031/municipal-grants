@@ -1,0 +1,22 @@
+[
+  {
+    "title": "令和8年度 福岡市宿泊事業者受入環境充実支援補助金（ホテル・旅館・簡易宿所）",
+    "target": "法人・個人事業主（福岡市内で旅館業を行い、宿泊税の納入申告書を提出している事業者）",
+    "amount": "補助対象経費の2分の1以内。客室数に応じて上限40万円～300万円",
+    "deadline": "2026年11月30日（予算額に達した時点で受付終了）",
+    "prefecture": "福岡県",
+    "city": "福岡市",
+    "source_url": "https://www.city.fukuoka.lg.jp/keizai/kankou-s/ukeireshien_1.html",
+    "updated_at": "2026-07-30"
+  },
+  {
+    "title": "令和8年度 福岡市宿泊事業者受入環境充実支援補助金（民泊）",
+    "target": "法人・個人事業主（福岡市内で住宅宿泊事業を行い、宿泊税の納入申告書を提出している事業者）",
+    "amount": "補助対象経費の2分の1以内、上限10万円",
+    "deadline": "2026年11月30日（予算額に達した時点で受付終了）",
+    "prefecture": "福岡県",
+    "city": "福岡市",
+    "source_url": "https://www.city.fukuoka.lg.jp/keizai/kankou-s/ukeireshien_2.html",
+    "updated_at": "2026-07-30"
+  }
+]

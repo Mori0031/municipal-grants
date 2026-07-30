@@ -1,0 +1,10 @@
+request_interval_seconds: 2.0
+sources:
+  # 自治体ごとに一覧URLとCSSセレクターを設定してください。
+  # 以下は書式例です。実在ページに合わせてURLとセレクターを変更します。
+  - prefecture: 東京都
+    city: 千代田区
+    list_url: https://www.city.chiyoda.lg.jp/koho/shigoto/jigyosho/index.html
+    link_selector: "main a"
+    content_selector: "main"
+    max_pages: 20
